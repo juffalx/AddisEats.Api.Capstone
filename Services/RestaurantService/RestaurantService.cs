@@ -1,4 +1,6 @@
 namespace AddisEats.Api.Services.RestaurantService;
+
+using AddisEats.Api.DTOs;
 using AddisEats.Api.Models;
 using AddisEats.Data;
 public class RestaurantService : IRestaurantService
@@ -6,15 +8,14 @@ public class RestaurantService : IRestaurantService
 {        
     private readonly List<Restaurant> _allRestaurant = Seed.allRestaurant;
 
-    public List<Restaurant> GetAll(string? Address, int page, int pageSize)
+    public List<Restaurant> GetAll(RestaurantQueryDTO query)
     {
-        // Console.WriteLine(_allRestaurant.Count);
-        var result = _allRestaurant.Where(r => Address == null || r.Area.Trim().ToLowerInvariant() == Address.Trim().ToLowerInvariant())
-        .Skip((page - 1) * pageSize)
-        .Take(pageSize)
+        var result = _allRestaurant.Where(r => query.Area == null || r.Area.Trim().ToLowerInvariant() == query.Area.Trim().ToLowerInvariant())
+        .Skip((query.Page - 1) * query.Limit)
+        .Take(query.Limit)
         .ToList();
 
-        Console.WriteLine($" aaaaaaaaaaaa => {result.Count}");
+        // Console.WriteLine($" aaaaaaaaaaaa => {result.Count}");
         return result;
     }
 

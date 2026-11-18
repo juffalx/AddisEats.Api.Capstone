@@ -17,9 +17,9 @@ public class RestaurantController : ControllerBase
         _restaurantService = restaurantService;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<RestaurantDTO>> GetAll([FromQuery] string? Address , [FromQuery] int page, [FromQuery] int pageSize )
+    public ActionResult<IEnumerable<RestaurantDTO>> GetAll( [FromQuery] RestaurantQueryDTO query )
     {
-        var result =  _restaurantService.GetAll( Address, page, pageSize);
+        var result =  _restaurantService.GetAll(query);
         if (result == null)
         {
             return NotFound();
