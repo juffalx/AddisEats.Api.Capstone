@@ -28,7 +28,7 @@ public class RestaurantController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}")] // Add contrains
     public ActionResult<IEnumerable<RestaurantDTO>>  GetById(int id)
     {
         var result = _restaurantService.GetById(id);
