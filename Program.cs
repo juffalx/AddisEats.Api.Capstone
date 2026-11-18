@@ -12,6 +12,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
+// builder.Services.AddControllers()
+// .AddJsonOptions(o =>
+// {
+// o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+// o.JsonSerializerOptions.DefaultIgnoreCondition
+// = JsonIgnoreCondition.WhenWritingNull;
+// });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
