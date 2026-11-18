@@ -10,7 +10,7 @@ public class RestaurantService : IRestaurantService
 
     public List<Restaurant> GetAll(RestaurantQueryDTO query)
     {
-        var result = _allRestaurant.Where(r => query.Area == null || r.Area.Trim().ToLowerInvariant() == query.Area.Trim().ToLowerInvariant())
+        var result = _allRestaurant.Where(r => query.Area.Count == 0 || query.Area.Contains(r.Area))
         .Skip((query.Page - 1) * query.Limit)
         .Take(query.Limit)
         .ToList();

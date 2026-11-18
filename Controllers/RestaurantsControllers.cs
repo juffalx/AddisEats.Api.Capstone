@@ -17,7 +17,7 @@ public class RestaurantController : ControllerBase
         _restaurantService = restaurantService;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<RestaurantDTO>> GetAll( [FromQuery] RestaurantQueryDTO query )
+    public ActionResult<RestaurantDTO> GetAll( [FromQuery] RestaurantQueryDTO query )
     {
         var result =  _restaurantService.GetAll(query);
         if (result == null)
@@ -29,7 +29,7 @@ public class RestaurantController : ControllerBase
     }
 
     [HttpGet("{id:int}")] // Add contrains
-    public ActionResult<IEnumerable<RestaurantDTO>>  GetById(int id)
+    public ActionResult<RestaurantDTO>  GetById(int id)
     {
         var result = _restaurantService.GetById(id);
         if (result == null)
