@@ -1,4 +1,5 @@
 
+using AddisEats.Api.Middleware;
 using AddisEats.Api.Services.OrderService;
 using AddisEats.Api.Services.RestaurantService;
 
@@ -30,6 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 
 app.UseAuthorization();

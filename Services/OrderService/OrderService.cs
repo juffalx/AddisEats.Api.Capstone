@@ -1,3 +1,4 @@
+using AddisEats.Api.Common;
 using AddisEats.Api.Models;
 
 namespace AddisEats.Api.Services.OrderService;
@@ -5,11 +6,20 @@ namespace AddisEats.Api.Services.OrderService;
 public class OrderService : IOrderService
 {
     private static readonly List<Order>  _order = new List<Order>();
-    public Order GetById(int id)
+    public Result<Order> GetById(int id)
+{
+    Order? result = _order.FirstOrDefault(r => r.Id == id);
+
+    if (result is null)
     {
-        Order? result = _order.Where(r => r.Id == id).FirstOrDefault();
-        return result;
+        return Result<Order>.Fail(
+            "ORDER_NOT_FOUND",
+            "Order was not found.",
+            404);
     }
+
+    return Result<Order>.Ok(result);
+}
 
     public Order CreateOrder(Order query)
     {
