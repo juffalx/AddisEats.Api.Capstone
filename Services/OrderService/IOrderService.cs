@@ -6,5 +6,5 @@ using AddisEats.Api.DTOs;
 public interface IOrderService
 {
     Result<Order> GetById(int id);
-    Result<Order> Place(CreateOrderRequest request);
+    Result<Order> CreateOrder(CreateOrderRequest request);
 }

@@ -1,6 +1,6 @@
+
 using AddisEats.Api.DTOs;
 using AddisEats.Api.Mappers;
-using AddisEats.Api.Models;
 using AddisEats.Api.Services.OrderService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +8,8 @@ namespace AddisEats.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/orders")]
-
 public class OrdersController : ControllerBase
 {
-
     private readonly IOrderService _orderService;
 
     public OrdersController(IOrderService orderService)
@@ -19,29 +17,36 @@ public class OrdersController : ControllerBase
         _orderService = orderService;
     }
 
-
     [HttpGet("{id:int}")]
     public ActionResult<OrderDTO> GetById(int id)
     {
         var result = _orderService.GetById(id);
-        if(result == null)
+
+        if (!result.IsSuccess)
         {
-            return NotFound();
+            return StatusCode(result.Error!.Status, result.Error);
         }
 
-        return Ok(result.ToDTOs());
+        return Ok(result.Value!.ToDTOs());
     }
 
     [HttpPost]
-    public ActionResult<Order> CreateOrder([FromBody] Order ForOrder)
+    public ActionResult<OrderDTO> CreateOrder(
+        [FromBody] CreateOrderRequest request)
     {
-        var result = _orderService.CreateOrder(ForOrder);
+        var result = _orderService.CreateOrder(request);
+
+        if (!result.IsSuccess)
+        {
+            return StatusCode(result.Error!.Status, result.Error);
+        }
+
+        var order = result.Value!;
 
         return CreatedAtAction(
-            nameof(CreateOrder),
-            new {id = result.Id},
-            result
-        ) ;
-        
+            nameof(GetById),
+            new { id = order.Id },
+            order.ToDTOs()
+        );
     }
 }
