@@ -10,23 +10,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IMenuItemService, MenuItemService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-
-
-
-
-
-builder.Services.AddControllers()
+builder.Services.AddScoped<AsyncActionFilter>();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<AsyncActionFilter>();
+})
 .AddJsonOptions(o =>
 {
     o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    o.JsonSerializerOptions.DefaultIgnoreCondition
-    = JsonIgnoreCondition.WhenWritingNull;
+    o.JsonSerializerOptions.DefaultIgnoreCondition =
+        JsonIgnoreCondition.WhenWritingNull;
 });
 
 var app = builder.Build();
