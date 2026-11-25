@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AddisEats.Api.Middleware;
+using AddisEats.Api.Services.MenuItemService;
 using AddisEats.Api.Services.OrderService;
 using AddisEats.Api.Services.RestaurantService;
 
@@ -13,14 +14,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+builder.Services.AddScoped<IMenuItemService, MenuItemService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+
+
+
 
 builder.Services.AddControllers()
 .AddJsonOptions(o =>
 {
-o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-o.JsonSerializerOptions.DefaultIgnoreCondition
-= JsonIgnoreCondition.WhenWritingNull;
+    o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    o.JsonSerializerOptions.DefaultIgnoreCondition
+    = JsonIgnoreCondition.WhenWritingNull;
 });
 
 var app = builder.Build();
