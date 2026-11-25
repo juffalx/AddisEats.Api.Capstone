@@ -16,7 +16,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IMenuItemService, MenuItemService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
 
 
 
@@ -53,10 +52,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 
