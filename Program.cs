@@ -35,6 +35,16 @@ var app = builder.Build();
 app.UseMiddleware<CorreletionIdMiddleware>();
 app.UseMiddleware<RequestTimingMiddleware>();
 
+app.Map("/admin", admin =>
+{
+    admin.UseMiddleware<ApiKeyMiddleware>();
+
+    admin.Run(async context =>
+    {
+        await context.Response.WriteAsync("እንኳን ወደ አድሚን ፔጅ መጣችሁ foor testing purpose");
+    });
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
