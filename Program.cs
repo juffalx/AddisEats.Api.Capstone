@@ -33,6 +33,7 @@ builder.Services.AddControllers()
 var app = builder.Build();
 // custom middleware
 app.UseMiddleware<CorreletionIdMiddleware>();
+app.UseMiddleware<RequestTimingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
