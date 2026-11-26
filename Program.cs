@@ -28,6 +28,10 @@ builder.Services.AddControllers(options =>
         JsonIgnoreCondition.WhenWritingNull;
 });
 
+builder.Logging.AddConsole(options =>
+{
+    options.IncludeScopes = true;
+});
 var app = builder.Build();
 // custom middleware
 app.UseMiddleware<CorreletionIdMiddleware>();
