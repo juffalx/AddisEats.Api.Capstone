@@ -22,8 +22,6 @@ public class OrderService : IOrderService
         _menuItemService = menuItemService;
         _logger = logger;
     }
-    [ProducesResponseType(typeof(OrderDTO), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
     public Result<Order> GetById(int id)
     {
         Order? result = _order.FirstOrDefault(r => r.Id == id);
@@ -41,10 +39,6 @@ public class OrderService : IOrderService
 
         return Result<Order>.Ok(result);
     }
-
-    [ProducesResponseType(typeof(OrderDTO), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
 
     public Result<Order> CreateOrder(CreateOrderRequest query)
     {

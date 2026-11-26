@@ -1,4 +1,5 @@
 
+using AddisEats.Api.Common;
 using AddisEats.Api.DTOs;
 using AddisEats.Api.Mappers;
 using AddisEats.Api.Services.OrderService;
@@ -18,6 +19,8 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(OrderDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
     public ActionResult<OrderDTO> GetById(int id)
     {
         var result = _orderService.GetById(id);
@@ -31,6 +34,9 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(OrderDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
     public ActionResult<OrderDTO> CreateOrder(
         [FromBody] CreateOrderRequest request)
     {
