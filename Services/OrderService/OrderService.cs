@@ -12,12 +12,14 @@ public class OrderService : IOrderService
 {
     private static readonly List<Order> _order = new();
     private static int _nextId = 1;
+    private readonly ILogger<OrderService> _logger;
 
     private readonly IMenuItemService _menuItemService;
 
-    public OrderService(IMenuItemService menuItemService)
+    public OrderService(IMenuItemService menuItemService, ILogger<OrderService> logger)
     {
         _menuItemService = menuItemService;
+        _logger = logger;
     }
 
     public Result<Order> GetById(int id)
@@ -26,6 +28,9 @@ public class OrderService : IOrderService
 
         if (result is null)
         {
+            _logger.LogInformation(
+    "Order {OrderId} was not found",
+    id);
             return Result<Order>.Fail(
                 "ORDER_NOT_FOUND",
                 "Order was not found.",
@@ -62,6 +67,11 @@ public class OrderService : IOrderService
         };
 
         _order.Add(result);
+
+        _logger.LogInformation(
+    "Order {OrderId} created with total {TotalAmount}",
+    result.Id,
+    result.TotalAmount);
 
         return Result<Order>.Ok(result);
     }
