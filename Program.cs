@@ -1,4 +1,5 @@
 
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AddisEats.Api.Middleware;
@@ -10,13 +11,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    options.IncludeXmlComments(xmlPath);
+});
+
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IMenuItemService, MenuItemService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<AsyncActionFilter>();
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<AsyncActionFilter>();
@@ -32,8 +41,10 @@ builder.Logging.AddConsole(options =>
 {
     options.IncludeScopes = true;
 });
+
 var app = builder.Build();
-// custom middleware
+
+// Custom middleware
 app.UseMiddleware<CorreletionIdMiddleware>();
 app.UseMiddleware<RequestTimingMiddleware>();
 
